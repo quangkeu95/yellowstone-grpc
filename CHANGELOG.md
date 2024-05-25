@@ -16,50 +16,46 @@ The minor version will be incremented upon a breaking change and the patch versi
 
 ### Breaking
 
-## 2024-05-21
+## 2024-05-17
 
-- yellowstone-grpc-client-1.15.0+solana.1.18.14
-- yellowstone-grpc-geyser-1.14.2+solana.1.18.14
-- yellowstone-grpc-proto-1.14.0+solana.1.18.14
-- yellowstone-grpc-tools-1.0.0-rc.11+solana.1.18.14
-
-### Features
-
-- solana: update to 1.18.14 ([#343](https://github.com/rpcpool/yellowstone-grpc/pull/343))
-
-## 2024-05-15
-
-- yellowstone-grpc-client-1.15.0+solana.1.18.13
-- yellowstone-grpc-geyser-1.14.2+solana.1.18.13
-- yellowstone-grpc-proto-1.14.0+solana.1.18.13
-- yellowstone-grpc-tools-1.0.0-rc.11+solana.1.18.13
+- yellowstone-grpc-client-1.15.0+solana.1.17.33
+- yellowstone-grpc-geyser-1.14.2+solana.1.17.33
+- yellowstone-grpc-proto-1.14.0+solana.1.17.33
+- yellowstone-grpc-tools-1.0.0-rc.11+solana.1.17.33
 
 ### Features
 
 - geyser: use runtime instaed of unconstrained ([#332](https://github.com/rpcpool/yellowstone-grpc/pull/332))
-- solana: update to 1.18.13 ([#339](https://github.com/rpcpool/yellowstone-grpc/pull/339))
 
-## 2024-04-30
+## 2024-05-15
 
-- yellowstone-grpc-client-1.15.0+solana.1.18.12
-- yellowstone-grpc-geyser-1.14.1+solana.1.18.12
-- yellowstone-grpc-proto-1.14.0+solana.1.18.12
-- yellowstone-grpc-tools-1.0.0-rc.11+solana.1.18.12
-
-### Features
-
-- solana: update to 1.18.12 ([#330](https://github.com/rpcpool/yellowstone-grpc/pull/330))
-
-## 2024-04-12
-
-- yellowstone-grpc-client-1.15.0+solana.1.18.11
-- yellowstone-grpc-geyser-1.14.1+solana.1.18.11
-- yellowstone-grpc-proto-1.14.0+solana.1.18.11
-- yellowstone-grpc-tools-1.0.0-rc.11+solana.1.18.11
+- yellowstone-grpc-client-1.15.0+solana.1.17.33
+- yellowstone-grpc-geyser-1.14.1+solana.1.17.33
+- yellowstone-grpc-proto-1.14.0+solana.1.17.33
+- yellowstone-grpc-tools-1.0.0-rc.11+solana.1.17.33
 
 ### Features
 
-- solana: update to 1.18.11 ([#321](https://github.com/rpcpool/yellowstone-grpc/pull/321))
+- solana: update to 1.17.33
+
+## 2024-04-14
+
+- yellowstone-grpc-client-1.15.0+solana.1.17.31
+- yellowstone-grpc-geyser-1.14.1+solana.1.17.31
+- yellowstone-grpc-proto-1.14.0+solana.1.17.31
+- yellowstone-grpc-tools-1.0.0-rc.11+solana.1.17.31
+
+### Features
+
+- solana: update to 1.17.31
+
+## 2024-04-04
+
+- yellowstone-grpc-geyser-1.14.1+solana.1.17.28
+
+### Features
+
+- geyser: allow to skip fields in config for `grpc.filters` ([#319](https://github.com/rpcpool/yellowstone-grpc/pull/319))
 
 ## 2024-04-04
 
@@ -68,6 +64,30 @@ The minor version will be incremented upon a breaking change and the patch versi
 ### Features
 
 - geyser: allow to skip fields in config for `grpc.filters` ([#319](https://github.com/rpcpool/yellowstone-grpc/pull/319))
+
+## 2024-04-04
+
+- yellowstone-grpc-client-1.15.0+solana.1.17.28
+- yellowstone-grpc-geyser-1.14.0+solana.1.17.28
+- yellowstone-grpc-proto-1.14.0+solana.1.17.28
+- yellowstone-grpc-tools-1.0.0-rc.11+solana.1.17.28
+
+### Fixes
+
+- deps: update `h2` crate (`RUSTSEC-2024-0332`) ([#316](https://github.com/rpcpool/yellowstone-grpc/pull/316))
+
+### Features
+
+- client: add gRPC channel options to Node.js ([#306](https://github.com/rpcpool/yellowstone-grpc/pull/306))
+- geyser: add `transactions_status` filter ([#310](https://github.com/rpcpool/yellowstone-grpc/pull/310))
+- geyser: add metric `slot_status_plugin` ([#312](https://github.com/rpcpool/yellowstone-grpc/pull/312))
+- geyser: wrap `geyser_loop` with `unconstrained` ([#313](https://github.com/rpcpool/yellowstone-grpc/pull/313))
+- geyser: handle `/debug_clients` on prometheus endpoint ([#314](https://github.com/rpcpool/yellowstone-grpc/pull/314))
+- geyser: wrap messages to `Arc` ([#315](https://github.com/rpcpool/yellowstone-grpc/pull/315))
+
+### Breaking
+
+- client: add `GeyserGrpcBuilder` ([#309](https://github.com/rpcpool/yellowstone-grpc/pull/309))
 
 ## 2024-04-04
 
@@ -93,27 +113,38 @@ The minor version will be incremented upon a breaking change and the patch versi
 
 - client: add `GeyserGrpcBuilder` ([#309](https://github.com/rpcpool/yellowstone-grpc/pull/309))
 
-## 2024-03-20
+## 2024-03-26
 
-- yellowstone-grpc-client-1.14.0+solana.1.18.7
-- yellowstone-grpc-geyser-1.13.0+solana.1.18.7
-- yellowstone-grpc-proto-1.13.0+solana.1.18.7
-- yellowstone-grpc-tools-1.0.0-rc.10+solana.1.18.7
-
-### Features
-
-- solana: update to 1.18.7 ([#302](https://github.com/rpcpool/yellowstone-grpc/pull/302))
-
-## 2024-03-04
-
-- yellowstone-grpc-client-1.14.0+solana.1.18.4
-- yellowstone-grpc-geyser-1.13.0+solana.1.18.4
-- yellowstone-grpc-proto-1.13.0+solana.1.18.4
-- yellowstone-grpc-tools-1.0.0-rc.10+solana.1.18.4
+- yellowstone-grpc-client-1.14.0+solana.1.17.28
+- yellowstone-grpc-geyser-1.13.0+solana.1.17.28
+- yellowstone-grpc-proto-1.13.0+solana.1.17.28
+- yellowstone-grpc-tools-1.0.0-rc.10+solana.1.17.28
 
 ### Features
 
-- solana: update to 1.18.4 ([#293](https://github.com/rpcpool/yellowstone-grpc/pull/293))
+- solana: update to 1.17.28
+
+## 2024-03-14
+
+- yellowstone-grpc-client-1.14.0+solana.1.17.25
+- yellowstone-grpc-geyser-1.13.0+solana.1.17.25
+- yellowstone-grpc-proto-1.13.0+solana.1.17.25
+- yellowstone-grpc-tools-1.0.0-rc.10+solana.1.17.25
+
+### Features
+
+- solana: update to 1.17.25
+
+## 2024-03-05
+
+- yellowstone-grpc-client-1.14.0+solana.1.17.24
+- yellowstone-grpc-geyser-1.13.0+solana.1.17.24
+- yellowstone-grpc-proto-1.13.0+solana.1.17.24
+- yellowstone-grpc-tools-1.0.0-rc.10+solana.1.17.24
+
+### Features
+
+- solana: update to 1.17.24
 
 ## 2024-03-04
 
@@ -138,17 +169,6 @@ The minor version will be incremented upon a breaking change and the patch versi
 ### Breaking
 
 - tools: add metrics, new config for google-pubsub ([#280](https://github.com/rpcpool/yellowstone-grpc/pull/280))
-
-## 2024-02-27
-
-- yellowstone-grpc-client-1.13.0+solana.1.18.3
-- yellowstone-grpc-geyser-1.12.0+solana.1.18.3
-- yellowstone-grpc-proto-1.12.0+solana.1.18.3
-- yellowstone-grpc-tools-1.0.0-rc.9+solana.1.18.3
-
-### Features
-
-- solana: update to 1.18.3
 
 ## 2024-02-06
 

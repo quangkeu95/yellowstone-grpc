@@ -8,7 +8,7 @@ use {
     anyhow::Context,
     log::{error, info},
     solana_geyser_plugin_interface::geyser_plugin_interface::{
-        ReplicaAccountInfoV3, ReplicaBlockInfoV3, ReplicaEntryInfoV2, ReplicaTransactionInfoV2,
+        ReplicaAccountInfoV3, ReplicaBlockInfoV3, ReplicaEntryInfo, ReplicaTransactionInfoV2,
         SlotStatus,
     },
     solana_sdk::{
@@ -35,7 +35,6 @@ use {
     tokio_stream::wrappers::ReceiverStream,
     tonic::{
         codec::CompressionEncoding,
-        service::{interceptor::InterceptedService, Interceptor},
         transport::{
             server::{Server, TcpIncoming},
             Identity, ServerTlsConfig,
@@ -200,18 +199,15 @@ pub struct MessageEntry {
     pub starting_transaction_index: u64,
 }
 
-impl From<&ReplicaEntryInfoV2<'_>> for MessageEntry {
-    fn from(entry: &ReplicaEntryInfoV2) -> Self {
+impl From<&ReplicaEntryInfo<'_>> for MessageEntry {
+    fn from(entry: &ReplicaEntryInfo) -> Self {
         Self {
             slot: entry.slot,
             index: entry.index,
             num_hashes: entry.num_hashes,
             hash: entry.hash.into(),
             executed_transaction_count: entry.executed_transaction_count,
-            starting_transaction_index: entry
-                .starting_transaction_index
-                .try_into()
-                .expect("failed convert usize to u64"),
+            starting_transaction_index: 0,
         }
     }
 }
@@ -726,7 +722,6 @@ impl GrpcService {
         config: ConfigGrpc,
         block_fail_action: ConfigBlockFailAction,
         debug_clients_tx: Option<mpsc::UnboundedSender<DebugClientMessage>>,
-        is_reload: bool,
     ) -> anyhow::Result<(
         Option<crossbeam_channel::Sender<Option<Message>>>,
         mpsc::UnboundedSender<Arc<Message>>,
@@ -742,11 +737,11 @@ impl GrpcService {
 
         // Snapshot channel
         let (snapshot_tx, snapshot_rx) = match config.snapshot_plugin_channel_capacity {
-            Some(cap) if !is_reload => {
+            Some(cap) => {
                 let (tx, rx) = crossbeam_channel::bounded(cap);
                 (Some(tx), Some(rx))
             }
-            _ => (None, None),
+            None => (None, None),
         };
 
         // Blocks meta storage
@@ -777,7 +772,7 @@ impl GrpcService {
         // Create Server
         let max_decoding_message_size = config.max_decoding_message_size;
         let service = GeyserServer::new(Self {
-            config: config.clone(),
+            config,
             blocks_meta,
             subscribe_id: AtomicUsize::new(0),
             snapshot_rx: Mutex::new(snapshot_rx),
@@ -787,7 +782,6 @@ impl GrpcService {
         .accept_compressed(CompressionEncoding::Gzip)
         .send_compressed(CompressionEncoding::Gzip)
         .max_decoding_message_size(max_decoding_message_size);
-        let service = InterceptedService::new(service, XTokenChecker::new(config.x_token));
 
         // Run geyser message loop
         let (messages_tx, messages_rx) = mpsc::unbounded_channel();
@@ -1460,29 +1454,5 @@ impl Geyser for GrpcService {
         Ok(Response::new(GetVersionResponse {
             version: serde_json::to_string(&GrpcVersionInfo::default()).unwrap(),
         }))
-    }
-}
-
-#[derive(Clone)]
-struct XTokenChecker {
-    x_token: Option<String>,
-}
-
-impl XTokenChecker {
-    const fn new(x_token: Option<String>) -> Self {
-        Self { x_token }
-    }
-}
-
-impl Interceptor for XTokenChecker {
-    fn call(&mut self, req: Request<()>) -> Result<Request<()>, Status> {
-        if let Some(x_token) = &self.x_token {
-            match req.metadata().get("x-token") {
-                Some(t) if x_token == t => Ok(req),
-                _ => Err(Status::unauthenticated("No valid auth token")),
-            }
-        } else {
-            Ok(req)
-        }
     }
 }
